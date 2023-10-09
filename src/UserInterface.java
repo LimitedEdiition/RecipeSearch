@@ -14,7 +14,7 @@ public class UserInterface {
 
     public void fileSearch() {
         while(true) {
-            System.out.println("File to read: ");
+            System.out.print("File to read: ");
             String fileName = scanner.nextLine();
             if(fileName.isEmpty()) {
                 System.out.println("No filename inputted! Try again!");
@@ -55,13 +55,15 @@ public class UserInterface {
 
     public void commandUI() {
         System.out.println("Commands:\nlist - lists the recipes\nstop - stops the program\n" +
-                "find name - searches the recipes by name");
+                "find name - searches the recipes by name\nfind cooking time - " +
+                "searches recipes by cooking time");
         while(true) {
-            System.out.print("Enter command:");
+            System.out.print("\nEnter command:");
             String input = scanner.nextLine();
             if(input.equalsIgnoreCase("stop")) {
                 break;
             } else if(input.equalsIgnoreCase("list")) {
+                System.out.println("\nRecipes:");
                 printRecipeObjects(recipeObjects);
             } else if(input.equalsIgnoreCase("find name")) {
                 System.out.print("Searched word: ");
@@ -70,10 +72,21 @@ public class UserInterface {
                 if(searchResults.isEmpty()) {
                     System.out.println("NO RESULTS FOUND!");
                 } else {
+                    System.out.println("\nRecipes:");
                     printRecipeObjects(searchResults);
-                    System.out.println();
                 }
 
+            } else if(input.equalsIgnoreCase("find cooking time")) {
+                System.out.print("Max cooking time:");
+                int maxTime = Integer.valueOf(scanner.nextLine());
+                ArrayList<Recipe> searchResults = searchRecipeByTime(recipeObjects,maxTime);
+                if(searchResults.isEmpty()) {
+                    System.out.println("NO RESULTS FOUND!");
+                } else {
+
+                    System.out.println("\nRecipes:");
+                    printRecipeObjects(searchResults);
+                }
             } else {
                 System.out.println("INVALID COMMAND, TRY AGAIN");
                 continue;
@@ -85,6 +98,16 @@ public class UserInterface {
         ArrayList<Recipe> searchResults = new ArrayList<>();
         for(Recipe recipe: recipeList) {
             if(recipe.getName().contains(word)) {
+                searchResults.add(recipe);
+            }
+        }
+        return searchResults;
+    }
+
+    public ArrayList<Recipe> searchRecipeByTime(ArrayList<Recipe> recipeList, int time) {
+        ArrayList<Recipe> searchResults = new ArrayList<>();
+        for(Recipe recipe : recipeList) {
+            if(recipe.getCookTime()<=time) {
                 searchResults.add(recipe);
             }
         }
