@@ -56,12 +56,15 @@ public class UserInterface {
     public void commandUI() {
         System.out.println("Commands:\nlist - lists the recipes\nstop - stops the program");
         while(true) {
-            System.out.println("Enter command");
+            System.out.println("Enter command:");
             String input = scanner.nextLine();
             if(input.equalsIgnoreCase("stop")) {
                 break;
             } else if(input.equalsIgnoreCase("list")) {
-
+                printRecipeObjects(recipeObjects);
+            } else {
+                System.out.println("INVALID COMMAND, TRY AGAIN");
+                continue;
             }
         }
     }
@@ -88,7 +91,7 @@ public class UserInterface {
     public void printRecipeObjects(ArrayList<Recipe> recipeList) {
         //System.out.println("PRINT");
         for(Recipe recipe : recipeList) {
-            System.out.println(recipe.getName());
+            System.out.println(recipe);
         }
     }
 }

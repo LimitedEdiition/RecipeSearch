@@ -33,4 +33,9 @@ public class Recipe {
     public void setIngredients(ArrayList<String> ingredients) {
         this.ingredients = ingredients;
     }
+
+    @Override
+    public String toString() {
+        return name + ", cooking time: " + cookTime;
+    }
 }
