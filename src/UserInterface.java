@@ -54,19 +54,41 @@ public class UserInterface {
     }
 
     public void commandUI() {
-        System.out.println("Commands:\nlist - lists the recipes\nstop - stops the program");
+        System.out.println("Commands:\nlist - lists the recipes\nstop - stops the program\n" +
+                "find name - searches the recipes by name");
         while(true) {
-            System.out.println("Enter command:");
+            System.out.print("Enter command:");
             String input = scanner.nextLine();
             if(input.equalsIgnoreCase("stop")) {
                 break;
             } else if(input.equalsIgnoreCase("list")) {
                 printRecipeObjects(recipeObjects);
+            } else if(input.equalsIgnoreCase("find name")) {
+                System.out.print("Searched word: ");
+                String searchName = scanner.nextLine();
+                ArrayList<Recipe> searchResults = searchedRecipe(recipeObjects,searchName);
+                if(searchResults.isEmpty()) {
+                    System.out.println("NO RESULTS FOUND!");
+                } else {
+                    printRecipeObjects(searchResults);
+                    System.out.println();
+                }
+
             } else {
                 System.out.println("INVALID COMMAND, TRY AGAIN");
                 continue;
             }
         }
+    }
+
+    public ArrayList<Recipe> searchedRecipe(ArrayList<Recipe> recipeList, String word) {
+        ArrayList<Recipe> searchResults = new ArrayList<>();
+        for(Recipe recipe: recipeList) {
+            if(recipe.getName().contains(word)) {
+                searchResults.add(recipe);
+            }
+        }
+        return searchResults;
     }
 
     public Recipe parseRecipeObject(ArrayList<String> recipeData) {
