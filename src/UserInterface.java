@@ -56,7 +56,8 @@ public class UserInterface {
     public void commandUI() {
         System.out.println("Commands:\nlist - lists the recipes\nstop - stops the program\n" +
                 "find name - searches the recipes by name\nfind cooking time - " +
-                "searches recipes by cooking time");
+                "searches recipes by cooking time\nfind ingredient - searches recipes by" +
+                " ingredient");
         while(true) {
             System.out.print("\nEnter command:");
             String input = scanner.nextLine();
@@ -83,7 +84,16 @@ public class UserInterface {
                 if(searchResults.isEmpty()) {
                     System.out.println("NO RESULTS FOUND!");
                 } else {
-
+                    System.out.println("\nRecipes:");
+                    printRecipeObjects(searchResults);
+                }
+            } else if(input.equalsIgnoreCase("find ingredient")) {
+                System.out.print("Ingredient: ");
+                String ingredient = scanner.nextLine();
+                ArrayList<Recipe> searchResults = searchRecipeByIngredient(recipeObjects,ingredient);
+                if(searchResults.isEmpty()) {
+                    System.out.println("NO RESULTS FOUND!");
+                } else {
                     System.out.println("\nRecipes:");
                     printRecipeObjects(searchResults);
                 }
@@ -92,6 +102,19 @@ public class UserInterface {
                 continue;
             }
         }
+    }
+
+    public ArrayList<Recipe> searchRecipeByIngredient(ArrayList<Recipe> recipeList, String word) {
+        ArrayList<Recipe> searchResults = new ArrayList<>();
+        for(Recipe recipe: recipeList) {
+            for(String ingredient: recipe.getIngredients()) {
+                if(word.equalsIgnoreCase(ingredient)) {
+                    searchResults.add(recipe);
+                }
+            }
+        }
+
+        return searchResults;
     }
 
     public ArrayList<Recipe> searchedRecipe(ArrayList<Recipe> recipeList, String word) {
